@@ -158,7 +158,6 @@ app.post("/api/cases", (req, res) => {
   });
 });
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-//
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
