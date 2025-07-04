@@ -1,0 +1,55 @@
+[
+  {
+    "id": "1751553718419",
+    "title": "test",
+    "description": "test desc",
+    "createdAt": "2025-07-03T14:41:58.419Z",
+    "updatedAt": "2025-07-03T14:41:58.419Z",
+    "status": "active",
+    "messages": [],
+    "documents": [],
+    "tags": []
+  },
+  {
+    "id": "1",
+    "title": "تحليل نزاع تعاقدي",
+    "description": "تحليل دعاوى خرق العقد لصالح شركة XYZ",
+    "createdAt": "2024-01-15T00:00:00Z",
+    "updatedAt": "2024-01-16T00:00:00Z",
+    "status": "active",
+    "messages": [
+      {
+        "id": "1",
+        "type": "user",
+        "content": "What are the key elements of a breach of contract claim?",
+        "timestamp": "2024-01-15T10:00:00Z"
+      },
+      {
+        "id": "2",
+        "type": "assistant",
+        "content": "A breach of contract claim typically requires four key elements: (1) existence of a valid contract, (2) performance by the plaintiff, (3) breach by the defendant, and (4) damages resulting from the breach.",
+        "timestamp": "2024-01-15T10:01:00Z",
+        "metadata": {
+          "sources": [
+            "Contract Law Principles §2.1",
+            "Restatement (Second) of Contracts §235"
+          ],
+          "graphNodes": ["Contract Formation", "Breach of Contract", "Damages"]
+        }
+      }
+    ],
+    "documents": ["contract-xyz-corp.pdf", "correspondence-2024.pdf"],
+    "tags": ["عقد", " خرق أو انتهاك", "تجاري"]
+  },
+  {
+    "id": "2",
+    "title": "Employment Law Research",
+    "description": "Researching wrongful termination claims",
+    "createdAt": "2024-01-10T00:00:00Z",
+    "updatedAt": "2024-01-14T00:00:00Z",
+    "status": "completed",
+    "messages": [],
+    "documents": ["employee-handbook.pdf", "termination-letter.pdf"],
+    "tags": ["employment", "termination", "labor"]
+  }
+]

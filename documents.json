@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "Contract Formation Requirements",
+    "snippet": "A contract requires offer, acceptance, consideration, and mutual assent...",
+    "source": "Restatement (Second) of Contracts",
+    "lastUpdated": "2024-01-01T00:00:00.000Z",
+    "tags": ["contract", "formation", "elements"],
+    "relevanceScore": 0.95
+  },
+  {
+    "id": "2",
+    "title": "Breach of Contract Remedies",
+    "snippet": "When a contract is breached, the non-breaching party may seek damages...",
+    "source": "UCC Article 2",
+    "lastUpdated": "2024-01-02T00:00:00.000Z",
+    "tags": ["contract", "breach", "remedies"],
+    "relevanceScore": 0.88
+  }
+]

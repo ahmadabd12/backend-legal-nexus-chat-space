@@ -1,0 +1,163 @@
+const express = require("express");
+const cors = require("cors");
+const fs = require("fs");
+const app = express();
+const PORT = 5000;
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swaggerConfig");
+app.use(cors());
+app.use(express.json());
+/**
+ * @swagger
+ * /api/cases:
+ *   get:
+ *     summary: Get all cases
+ *     tags: [Cases]
+ *     responses:
+ *       200:
+ *         description: List of cases
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
+
+app.get("/api/cases", (req, res) => {
+  fs.readFile("cases.json", "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: "Failed to read cases data" });
+    }
+    res.json(JSON.parse(data));
+  });
+});
+/**
+ * @swagger
+ * /api/documents:
+ *   get:
+ *     summary: Get all documents
+ *     tags: [Documents]
+ *     responses:
+ *       200:
+ *         description: List of documents
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
+
+app.get("/api/documents", (req, res) => {
+  fs.readFile("documents.json", "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: "Failed to read documents data" });
+    }
+    res.json(JSON.parse(data));
+  });
+});
+// POST new case
+// app.post("/api/cases", (req, res) => {
+//   const newCase = req.body;
+
+//   fs.readFile("cases.json", "utf8", (err, data) => {
+//     if (err) {
+//       return res.status(500).json({ message: "Failed to read cases data" });
+//     }
+
+//     let cases = [];
+//     try {
+//       cases = JSON.parse(data);
+//     } catch (e) {
+//       cases = [];
+//     }
+
+//     cases.unshift(newCase);
+//     fs.writeFile("cases.json", JSON.stringify(cases, null, 2), (err) => {
+//       if (err) {
+//         return res.status(500).json({ message: "Failed to write new case" });
+//       }
+//       res.status(201).json(newCase);
+//     });
+//   });
+// });
+
+/**
+ * @swagger
+ * /api/cases:
+ *   post:
+ *     summary: Add a new case
+ *     tags: [Cases]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       201:
+ *         description: The created case
+ */
+
+app.post("/api/cases", (req, res) => {
+  const newCase = req.body;
+  console.log("🔍 Received new case:", newCase);
+
+  fs.readFile("cases.json", "utf8", (err, data) => {
+    if (err) {
+      console.error("❌ Error reading cases.json:", err);
+      return res.status(500).json({ message: "Failed to read cases data" });
+    }
+
+    let cases = [];
+
+    try {
+      // Handle empty file case
+      if (data.trim() === "") {
+        console.warn("⚠️ cases.json is empty. Initializing with empty array.");
+        cases = [];
+      } else {
+        cases = JSON.parse(data);
+
+        // Ensure it's an array
+        if (!Array.isArray(cases)) {
+          console.warn(
+            "⚠️ Parsed data is not an array. Resetting to empty array."
+          );
+          cases = [];
+        }
+      }
+    } catch (parseErr) {
+      console.error("❌ JSON parse error:", parseErr.message);
+      cases = [];
+    }
+
+    // Make sure newCase is a valid object before unshifting
+    if (newCase && typeof newCase === "object") {
+      cases.unshift(newCase);
+    } else {
+      console.error("❌ Invalid case data:", newCase);
+      return res.status(400).json({ message: "Invalid case format" });
+    }
+
+    try {
+      fs.writeFile("cases.json", JSON.stringify(cases, null, 2), (writeErr) => {
+        if (writeErr) {
+          console.error("❌ Error writing to cases.json:", writeErr);
+          return res.status(500).json({ message: "Failed to write new case" });
+        }
+
+        console.log("✅ New case saved successfully.");
+        res.status(201).json(newCase);
+      });
+    } catch (writeCatchErr) {
+      console.error("❌ Unexpected write error:", writeCatchErr);
+      res.status(500).json({ message: "Unexpected error while saving case" });
+    }
+  });
+});
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
