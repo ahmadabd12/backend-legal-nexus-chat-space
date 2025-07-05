@@ -4,9 +4,27 @@
     "title": "test",
     "description": "test desc",
     "createdAt": "2025-07-03T14:41:58.419Z",
-    "updatedAt": "2025-07-03T14:41:58.419Z",
+    "updatedAt": "2025-07-05T14:00:12.198Z",
     "status": "active",
-    "messages": [],
+    "messages": [
+      {
+        "id": "1751724010152",
+        "type": "user",
+        "content": "Please summarize the key points from the current section.",
+        "timestamp": "2025-07-05T14:00:10.152Z"
+      },
+      {
+        "id": "1751724012192",
+        "type": "assistant",
+        "content": "Based on your question about \"Please summarize the key points from the current section.\", I've analyzed relevant legal precedents and statutes. Here's what I found...",
+        "timestamp": "2025-07-05T14:00:12.191Z",
+        "metadata": {
+          "sources": ["Sample Statute §123.45", "Key Case Law v. Example"],
+          "graphNodes": ["Legal Concept A", "Related Statute B"],
+          "reasoning": "Applied semantic search across legal database and graph reasoning to identify relevant connections."
+        }
+      }
+    ],
     "documents": [],
     "tags": []
   },
@@ -15,20 +33,20 @@
     "title": "تحليل نزاع تعاقدي",
     "description": "تحليل دعاوى خرق العقد لصالح شركة XYZ",
     "createdAt": "2024-01-15T00:00:00Z",
-    "updatedAt": "2024-01-16T00:00:00Z",
+    "updatedAt": "2025-07-05T13:34:56.321Z",
     "status": "active",
     "messages": [
       {
         "id": "1",
         "type": "user",
         "content": "What are the key elements of a breach of contract claim?",
-        "timestamp": "2024-01-15T10:00:00Z"
+        "timestamp": "2024-01-15T10:00:00.000Z"
       },
       {
         "id": "2",
         "type": "assistant",
         "content": "A breach of contract claim typically requires four key elements: (1) existence of a valid contract, (2) performance by the plaintiff, (3) breach by the defendant, and (4) damages resulting from the breach.",
-        "timestamp": "2024-01-15T10:01:00Z",
+        "timestamp": "2024-01-15T10:01:00.000Z",
         "metadata": {
           "sources": [
             "Contract Law Principles §2.1",

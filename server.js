@@ -157,6 +157,70 @@ app.post("/api/cases", (req, res) => {
     }
   });
 });
+/**
+ * @swagger
+ * /api/cases/{id}:
+ *   put:
+ *     summary: Update a case by ID
+ *     tags: [Cases]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: The updated case
+ */
+
+app.put("/api/cases/:id", (req, res) => {
+  const caseId = req.params.id;
+  const updates = req.body;
+
+  fs.readFile("cases.json", "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: "Failed to read cases data" });
+    }
+
+    let cases;
+    try {
+      cases = JSON.parse(data);
+      if (!Array.isArray(cases)) throw new Error("Cases is not an array");
+    } catch (parseErr) {
+      return res.status(500).json({ message: "Failed to parse cases.json" });
+    }
+
+    const caseIndex = cases.findIndex((c) => c.id === caseId);
+    if (caseIndex === -1) {
+      return res.status(404).json({ message: "Case not found" });
+    }
+
+    // Update the case
+    cases[caseIndex] = {
+      ...cases[caseIndex],
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+
+    fs.writeFile("cases.json", JSON.stringify(cases, null, 2), (writeErr) => {
+      if (writeErr) {
+        return res
+          .status(500)
+          .json({ message: "Failed to write updated case" });
+      }
+
+      res.json(cases[caseIndex]);
+    });
+  });
+});
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
