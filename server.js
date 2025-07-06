@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const path = require("path");
 const app = express();
 const PORT = 5000;
 const swaggerUi = require("swagger-ui-express");
@@ -25,8 +26,11 @@ app.use(express.json());
  */
 
 app.get("/api/cases", (req, res) => {
-  fs.readFile("cases.json", "utf8", (err, data) => {
+  const filePath = path.join(__dirname, "cases.json");
+  fs.readFile(filePath, "utf8", (err, data) => {
+    console.log("Reading from:", filePath);
     if (err) {
+      console.error("Error reading cases.json:", err);
       return res.status(500).json({ message: "Failed to read cases data" });
     }
     res.json(JSON.parse(data));
@@ -50,7 +54,8 @@ app.get("/api/cases", (req, res) => {
  */
 
 app.get("/api/documents", (req, res) => {
-  fs.readFile("documents.json", "utf8", (err, data) => {
+  const filePath = path.join(__dirname, "documents.json");
+  fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       return res.status(500).json({ message: "Failed to read documents data" });
     }
@@ -101,10 +106,11 @@ app.get("/api/documents", (req, res) => {
  */
 
 app.post("/api/cases", (req, res) => {
+  const filePath = path.join(__dirname, "cases.json");
   const newCase = req.body;
   console.log("🔍 Received new case:", newCase);
 
-  fs.readFile("cases.json", "utf8", (err, data) => {
+  fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.error("❌ Error reading cases.json:", err);
       return res.status(500).json({ message: "Failed to read cases data" });
@@ -142,7 +148,7 @@ app.post("/api/cases", (req, res) => {
     }
 
     try {
-      fs.writeFile("cases.json", JSON.stringify(cases, null, 2), (writeErr) => {
+      fs.writeFile(filePath, JSON.stringify(cases, null, 2), (writeErr) => {
         if (writeErr) {
           console.error("❌ Error writing to cases.json:", writeErr);
           return res.status(500).json({ message: "Failed to write new case" });
@@ -183,8 +189,8 @@ app.post("/api/cases", (req, res) => {
 app.put("/api/cases/:id", (req, res) => {
   const caseId = req.params.id;
   const updates = req.body;
-
-  fs.readFile("cases.json", "utf8", (err, data) => {
+  const filePath = path.join(__dirname, "cases.json");
+  fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       return res.status(500).json({ message: "Failed to read cases data" });
     }
@@ -209,7 +215,7 @@ app.put("/api/cases/:id", (req, res) => {
       updatedAt: new Date().toISOString(),
     };
 
-    fs.writeFile("cases.json", JSON.stringify(cases, null, 2), (writeErr) => {
+    fs.writeFile(filePath, JSON.stringify(cases, null, 2), (writeErr) => {
       if (writeErr) {
         return res
           .status(500)
